@@ -1,0 +1,21 @@
+Package: progmarker
+Type: Package
+Title: Find prognosis marker from expression data
+Version: 0.1.0
+Author: Feng Yan 
+Maintainer: Feng Yan <alexyfyf@163.com>
+Description: Use LASSO Cox regression to identify prognosis marker
+    Survival plot for single gene or gene set
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Imports: glmnet, 
+    tidyverse,
+    magrittr,
+    survival,
+    future.apply,
+    stats,
+    utils,
+    ggplot2,
+    rlang

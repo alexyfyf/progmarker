@@ -7,13 +7,15 @@
 topN(x, f, y, perm, n = 3)
 }
 \arguments{
-\item{x}{matrix, expression matrix, log transformed, row is patient, column is gene}
+\item{x}{data.frame, expression matrix, log transformed, first column is patient id (PID), other column is gene}
 
-\item{f}{vector, genes, consitent with expression matrix colnames}
+\item{f}{vector, genes names, consitent with expression data frame colnames}
 
-\item{y}{data.frame, include columnd os.time and os.status, rownames same as rowname in expression matrix}
+\item{y}{data.frame, include columnd os.time and os.status,first column must be identical as first column in exp}
 
 \item{perm}{numeric, number of permutations}
+
+\item{n}{numeric, top n models will be output}
 }
 \value{
 List: coefficient and lambda (if required)
@@ -22,6 +24,8 @@ List: coefficient and lambda (if required)
 Use input expression, clinical and gene list to generate LASSO-Cox model, permutate and obtain most often occured model
 }
 \examples{
-top <- topN(x, f, y, perm=100, n=3)
+\dontrun{
+top <- topN(exp, feature, surv, perm=100, n=3)
+}
 
 }

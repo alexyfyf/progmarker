@@ -7,11 +7,13 @@
 lasso_cox(exp, feature, surv, lambda = FALSE)
 }
 \arguments{
-\item{exp}{matrix, expression matrix, log transformed, row is patient, column is gene}
+\item{exp}{data.frame, expression matrix, log transformed, first column is patient id (PID), other column is gene}
 
-\item{feature}{vector, genes, consitent with expression matrix colnames}
+\item{feature}{vector, genes names, consitent with expression data frame colnames}
 
-\item{survdata}{data.frame, include columnd os.time and os.status, rownames same as rowname in expression matrix}
+\item{surv}{data.frame, include columnd os.time and os.status,first column must be identical as first column in exp}
+
+\item{lambda}{logical, whether output the lambda min value}
 }
 \value{
 List: coefficient and lambda (if required)
@@ -20,6 +22,6 @@ List: coefficient and lambda (if required)
 Use input expression, clinical and gene list to generate LASSO-Cox model
 }
 \examples{
-lassocoef <- lasso_cox(x, f, y, lambda = T)
+lassocoef <- lasso_cox(exp, feature, surv, lambda = FALSE)
 
 }

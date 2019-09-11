@@ -4,13 +4,15 @@
 #'
 #' @param exp data.frame, expression matrix, log transformed, first column is patient id (PID), other column is gene
 #'
-#' @param survdata data.frame, include columnd os.time and os.status,first column must be identical as first column in exp
+#' @param surv data.frame, include columnd os.time and os.status,first column must be identical as first column in exp
 #'
 #' @param feature vector, genes names, consitent with expression data frame colnames
 #'
+#' @param lambda logical, whether output the lambda min value
+#'
 #' @return List: coefficient and lambda (if required)
 #'
-#' @examples lassocoef <- lasso_cox(x, f, y, lambda = T)
+#' @examples lassocoef <- lasso_cox(exp, feature, surv, lambda = FALSE)
 #'
 #' @import glmnet
 #'
@@ -20,14 +22,16 @@
 #'
 #' @import magrittr
 #'
+#' @import dplyr
+#'
 #' @importFrom rlang .data
 #'
 #' @export
 
 lasso_cox <- function(exp, feature, surv, lambda = FALSE) {
-  require(glmnet)
-  require(tidyverse)
-  require(survival)
+  # require(glmnet)
+  # require(tidyverse)
+  # require(survival)
 
   ## sanity check
   cln.exp <- colnames(exp)
@@ -38,8 +42,8 @@ lasso_cox <- function(exp, feature, surv, lambda = FALSE) {
     all(feature %in% cln.exp),
     ## x and y include same patients and same order
     all.equal(
-      exp %>% pull(cln.exp[1]) %>% as.character(),
-      surv %>% pull(cln.surv[1]) %>% as.character()
+      exp %>% dplyr::pull(cln.exp[1]) %>% as.character(),
+      surv %>% dplyr::pull(cln.surv[1]) %>% as.character()
     )
   )
   survmat <- Surv(surv$os.time, surv$os.status)

@@ -8,15 +8,22 @@
 #'
 #' @param f vector, genes names, consitent with expression data frame colnames
 #'
+#' @param n numeric, top n models will be output
+#'
 #' @param perm numeric, number of permutations
 #'
 #' @return List: coefficient and lambda (if required)
 #'
-#' @examples top <- topN(x, f, y, perm=100, n=3)
+#' @examples
+#' \dontrun{
+#' top <- topN(exp, feature, surv, perm=100, n=3)
+#' }
 #'
 #' @import glmnet
 #'
 #' @import tidyverse
+#'
+#' @import dplyr
 #'
 #' @import survival
 #'
@@ -26,11 +33,13 @@
 #'
 #' @import future.apply
 #'
+#' @import future
+#'
 #' @export
 
 ## for reproducibility, not true RNG
 topN <- function(x, f, y, perm, n=3) {
-  require(future.apply)
+  # require(future.apply)
   plan(multiprocess)
   list <- future_lapply(1:perm, function(a) {
     lasso_cox(x, f, y, lambda = T)
@@ -42,7 +51,7 @@ topN <- function(x, f, y, perm, n=3) {
   lbd <- sapply(list, function(x)
     x[[2]])
   lbd_c <- lbd %>% round(6) %>% as.character()
-  order <- lbd_c %>% table() %>% sort(., decreasing = T)
+  order <- lbd_c %>% table() %>% sort(.data, decreasing = T)
   # return(order[1:3])
 
   lst <- lapply(list, function(x)
